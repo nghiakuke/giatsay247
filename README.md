@@ -2,6 +2,13 @@
 
 Website tĩnh tiếng Việt cho dịch vụ giặt sấy, giao nhận tận nơi.
 
+## Website đang chạy
+
+- **GitHub Pages:** https://nghiakuke.github.io/giatsay247/
+- **Mã nguồn:** https://github.com/nghiakuke/giatsay247
+
+> Form đặt lịch/liên hệ hiện chỉ kiểm tra dữ liệu và hiện thông báo trên trình duyệt, chưa gửi về server. Muốn nhận đơn thật, cần nối form với Formspree, Google Apps Script hoặc backend riêng.
+
 ## Thông tin thương hiệu
 
 - Tên: **Giặt Sấy 24/7**
