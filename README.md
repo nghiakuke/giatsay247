@@ -7,7 +7,7 @@ Website tĩnh tiếng Việt cho dịch vụ giặt sấy, giao nhận tận nơ
 - **GitHub Pages:** https://nghiakuke.github.io/giatsay247/
 - **Mã nguồn:** https://github.com/nghiakuke/giatsay247
 
-> Form đặt lịch/liên hệ hiện chỉ kiểm tra dữ liệu và hiện thông báo trên trình duyệt, chưa gửi về server. Muốn nhận đơn thật, cần nối form với Formspree, Google Apps Script hoặc backend riêng.
+> Form đặt lịch/liên hệ đã hỗ trợ gửi dữ liệu về **Google Sheet** qua Google Apps Script. Xem hướng dẫn tại [`HUONG-DAN-GOOGLE-SHEET.md`](HUONG-DAN-GOOGLE-SHEET.md). Nếu chưa cấu hình `formEndpoint`, form sẽ chạy ở chế độ demo và chỉ hiện thông báo trên trình duyệt.
 
 ## Thông tin thương hiệu
 
@@ -41,11 +41,16 @@ giatsay247/
 ├── bai-viet.html       # Bài viết mẫu
 ├── lien-he.html        # Liên hệ
 ├── build.js            # Build HTML từ src/
+├── HUONG-DAN-GOOGLE-SHEET.md
+├── google-sheet/
+│   ├── Code.gs         # Apps Script nhận dữ liệu form
+│   └── mau-du-lieu.csv # Mẫu tiêu đề cột
 ├── src/
 │   ├── partials/       # layout, header, footer dùng chung
 │   └── pages/          # nội dung từng trang
 └── assets/
     ├── css/style.css
+    ├── js/config.js    # Dán URL Google Apps Script vào đây
     ├── js/main.js
     └── img/            # ảnh, logo, favicon
 ```
@@ -67,5 +72,6 @@ CSS và JS được tham chiếu trực tiếp nên không cần build lại khi
 - Bảng giá dạng tab, FAQ accordion.
 - Lọc bài viết theo danh mục (hỗ trợ `?cat=...`).
 - Modal đặt lịch, kiểm tra số điện thoại, toast thông báo.
+- Gửi dữ liệu form về Google Sheet qua Google Apps Script.
 - Nút gọi / Zalo / đặt lịch nổi, back-to-top.
 - Responsive cho desktop, tablet và mobile.

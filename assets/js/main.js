@@ -300,7 +300,7 @@
   const phoneRe = /^(0|\+84)(\d{9,10})$/;
 
   function handleForm(form) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = form.querySelector('[name="name"]');
       const phone = form.querySelector('[name="phone"]');
@@ -326,13 +326,53 @@
       }
 
       const isBooking = form.dataset.form === "booking";
-      showToast(
-        isBooking
-          ? "Đã nhận yêu cầu! Giặt Sấy 24/7 sẽ gọi lại cho bạn trong ít phút."
-          : "Cảm ơn bạn! Chúng tôi đã nhận thông tin và sẽ liên hệ sớm nhất."
-      );
-      form.reset();
-      if (isBooking) closeModal();
+      const successMsg = isBooking
+        ? "Đã nhận yêu cầu! Giặt Sấy 24/7 sẽ gọi lại cho bạn trong ít phút."
+        : "Cảm ơn bạn! Chúng tôi đã nhận thông tin và sẽ liên hệ sớm nhất.";
+      const endpoint =
+        (window.GIATSAY_CONFIG && window.GIATSAY_CONFIG.formEndpoint || "").trim();
+
+      // Chưa cấu hình Google Sheet: giữ hành vi demo cũ.
+      if (!endpoint) {
+        showToast(successMsg);
+        form.reset();
+        if (isBooking) closeModal();
+        return;
+      }
+
+      const payload = new URLSearchParams();
+      new FormData(form).forEach((value, key) => payload.append(key, value));
+      payload.append("formType", form.dataset.form || "contact");
+      payload.append("page", window.location.href);
+      payload.append("source", "website");
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalHTML = submitBtn ? submitBtn.innerHTML : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Đang gửi...";
+      }
+
+      try {
+        await fetch(endpoint, {
+          method: "POST",
+          mode: "no-cors",
+          body: payload,
+        });
+        showToast(successMsg);
+        form.reset();
+        if (isBooking) closeModal();
+      } catch (err) {
+        showToast(
+          "Không gửi được thông tin. Vui lòng gọi 0901 888 759 để được hỗ trợ.",
+          true
+        );
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHTML;
+        }
+      }
     });
   }
 
